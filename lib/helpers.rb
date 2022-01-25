@@ -55,12 +55,12 @@ def build_letter_prominence(words, use_indices)
     letter_prominence
 end
 
-def sort_by_prominence(words, letter_prominence)
+def sort_by_prominence(words, letter_prominence, use_indices)
     words_by_prominence = words.map do |word|
         {
-            word_string: word.join(''),
+            word: word,
             num_unique_letters: word.uniq.length,
-            prominence: word.map { |letter| letter_prominence[letter] }.sum
+            prominence: word.select.with_index { |l, i| use_indices.include?(i) }.map { |letter| letter_prominence[letter] }.sum
         }
     end
 

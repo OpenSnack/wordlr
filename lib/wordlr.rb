@@ -18,9 +18,8 @@ class Wordlr
     end
 
     def guess(letter_code)
-        @num_guesses += 1
         if @current_guess.nil? || letter_code == '.....'
-            return @first_guesses[@num_guesses - 1]
+            return @first_guesses[@num_guesses], @wordlist
         end
 
         correct_places = find_letter_indices(letter_code, '*')
@@ -36,19 +35,22 @@ class Wordlr
         )
         
         if good_words.length == 1
-            return good_words[0].join
+            return good_words[0].join, good_words
         end
     
         # the indices where wrong letters in the guess could go
         noncorrect_slots = [0,1,2,3,4] - correct_places
 
         letter_prominence = build_letter_prominence(good_words, noncorrect_slots)
-        sorted = sort_by_prominence(good_words, letter_prominence)
+        sorted = sort_by_prominence(good_words, letter_prominence, noncorrect_slots)
 
-        @current_guess = sorted[0][:word_string]
+        return sorted[0][:word].join(''), sorted.map { |word| word[:word] }
     end
 
     def guess!(letter_code)
-        @current_guess = guess(letter_code)
+        out = guess(letter_code)
+        @num_guesses += 1
+        @current_guess = out[0]
+        @wordlist = out[1]
     end
 end
