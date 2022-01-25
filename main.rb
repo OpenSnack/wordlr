@@ -9,8 +9,8 @@ response = nil
 
 wordlr = Wordlr.new(valid_guesses, zero_guesses)
 
+wordlr.guess!(response)
 loop do
-    wordlr.guess!(response)
     puts wordlr.current_guess.upcase
 
     response = $stdin.gets.chomp
@@ -18,10 +18,12 @@ loop do
         break
     end
 
-    if (response.length != 5)
-        puts 'Enter a valid guess'
+    if (!response.match?(/^[\*\.\-]{5}$/))
+        puts 'Enter a valid response'
         next
     end
+
+    wordlr.guess!(response)
 end
 
 puts "done in #{wordlr.num_guesses} guesses: #{wordlr.current_guess.upcase}"
