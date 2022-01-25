@@ -3,7 +3,7 @@
 require 'set'
 require './lib/wordlr'
 
-zero_guesses = ['locks', 'soare', 'linty', 'chump']
+zero_guesses = ['soare', 'linty', 'chump']
 valid_guesses = open('wordlist.txt').map { |s| s.chomp }
 response = nil
 
